@@ -1,0 +1,6 @@
+###
+### cdhooks
+###
+
+source ~/.cdhooks/rc
+export CDHOOKS_VERBOSE=

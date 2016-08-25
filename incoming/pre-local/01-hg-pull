@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function pull_and_update_repo {
+  hg pull --update
+}
+
+function test_if_working_directory_clean {
+  hg status --all 2>&1 | egrep -v '^C' > /dev/null || pull_and_update_repo
+}
+
+function test_if_in_repo_root {
+  [ -d .hg ] && test_if_working_directory_clean
+}
+
+function test_if_hg_repo {
+  hg status 2>&1 | grep 'abort: no repository found' > /dev/null || test_if_in_repo_root
+}
+
+test_if_hg_repo
+exit 0

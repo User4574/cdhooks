@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function pull_and_update_repo {
+  git pull
+}
+
+function test_if_working_directory_clean {
+  git status 2>&1 | grep 'nothing.*commit' > /dev/null && pull_and_update_repo
+}
+
+function test_if_in_repo_root {
+  [ -d .git ] && test_if_working_directory_clean
+}
+
+function test_if_git_repo {
+  git status 2>&1 | grep 'fatal: Not a git repository' > /dev/null || test_if_in_repo_root
+}
+
+test_if_git_repo
+exit 0

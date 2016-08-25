@@ -1,0 +1,15 @@
+1) Clone this repo
+2) Source the rc file in your .bashrc
+3) Start adding your scripts
+
+When you cd to mydir, scripts will run in the following order:
+  1) cdhooks/incoming/pre-local/
+  2) mydir/.cdhooks/incoming/
+  3) cdhooks/incoming/post-local/
+
+When you cd away from mydir:
+  1) cdhooks/outgoing/pre-local/
+  2) mydir/.cdhooks/outgoing/
+  3) cdhooks/outgoing/post-local/
+
+All of the outgoing scripts run before any of the incoming scripts.

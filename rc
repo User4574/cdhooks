@@ -1,0 +1,36 @@
+###
+### cdhooks
+### OH DEAR GOD WHAT WAS I THINKING
+###
+
+function cd {
+  if [ $CDHOOKS_VERBOSE ]; then
+    VERBOSE=--verbose
+  fi
+
+  if [ "x$1" == "x" -o "x$1" == "x-" -o -d "$1" ]; then
+
+    # Outgoing stuff
+    [ -d "$HOME/.cdhooks/outgoing/pre-local" ] && run-parts $VERBOSE $HOME/.cdhooks/outgoing/pre-local
+    [ -d ".cdhooks/outgoing" ] && run-parts $VERBOSE .cdhooks/outgoing
+    [ -d "$HOME/.cdhooks/outgoing/post-local" ] && run-parts $VERBOSE $HOME/.cdhooks/outgoing/post-local
+
+    # cd
+    if [ "x" == "x$*" ]
+    then
+      builtin cd
+    else
+      builtin cd "$*"
+    fi
+
+    # Incoming stuff
+    [ -d "$HOME/.cdhooks/incoming/pre-local" ] && run-parts $VERBOSE $HOME/.cdhooks/incoming/pre-local
+    [ -d ".cdhooks/incoming" ] && run-parts $VERBOSE .cdhooks/incoming
+    [ -d "$HOME/.cdhooks/incoming/post-local" ] && run-parts $VERBOSE $HOME/.cdhooks/incoming/post-local
+
+  else
+
+    echo "[cdhooks] No such directory: $1"
+
+  fi
+}
